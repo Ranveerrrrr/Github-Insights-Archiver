@@ -8,11 +8,12 @@ HEADERS = {
     "Accept": "application/vnd.github+json"
 }
 
-repos_url = "https://api.github.com/user/repos?per_page=100"
+repos = requests.get(
+    "https://api.github.com/user/repos?per_page=100",
+    headers=HEADERS
+).json()
 
-repos = requests.get(repos_url, headers=HEADERS).json()
-
-data = []
+all_data = []
 
 for repo in repos:
 
@@ -36,13 +37,14 @@ for repo in repos:
         "description": repo["description"],
         "stars": repo["stargazers_count"],
         "forks": repo["forks_count"],
+        "url": repo["html_url"],
         "views": views.get("views", []),
         "clones": clones.get("clones", [])
     }
 
-    data.append(repo_data)
+    all_data.append(repo_data)
 
 with open("traffic.json","w") as f:
-    json.dump(data, f, indent=2)
+    json.dump(all_data, f, indent=2)
 
-print("Saved traffic.json")
+print("traffic.json generated")

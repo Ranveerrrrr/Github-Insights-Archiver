@@ -1,9 +1,8 @@
 import json
 
-data = json.load(open("traffic.json"))
+repos = json.load(open("traffic.json"))
 
-html = """
-
+html = f"""
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,36 +13,47 @@ html = """
 
 <style>
 
-body{
+body {{
 background:#0d1117;
 color:white;
 font-family:Arial;
 padding:40px;
-}
+}}
 
-h1{
+h1 {{
 text-align:center;
 margin-bottom:40px;
-}
+}}
 
-.repo{
+.repo {{
 background:#161b22;
-padding:20px;
-margin-bottom:40px;
+margin-bottom:15px;
 border-radius:8px;
-}
+}}
 
-.repo h2{
-margin:0;
-}
+.repo-header {{
+padding:15px;
+cursor:pointer;
+font-weight:bold;
+border-bottom:1px solid #30363d;
+}}
 
-.repo p{
+.repo-content {{
+display:none;
+padding:20px;
+}}
+
+.repo p {{
 color:#8b949e;
-}
+}}
 
-canvas{
+canvas {{
 margin-top:20px;
-}
+}}
+
+a {{
+color:#58a6ff;
+}}
 
 </style>
 
@@ -53,79 +63,110 @@ margin-top:20px;
 
 <h1>GitHub Stats</h1>
 
-"""
-
-chart_id = 0
-
-for repo in data:
-
-    chart_id += 1
-
-    views_dates = [v["timestamp"][:10] for v in repo["views"]]
-    views_counts = [v["count"] for v in repo["views"]]
-
-    clones_dates = [c["timestamp"][:10] for c in repo["clones"]]
-    clones_counts = [c["count"] for c in repo["clones"]]
-
-    html += f"""
-
-<div class="repo">
-
-<h2>{repo["name"]}</h2>
-
-<p>{repo["description"]}</p>
-
-<p>⭐ {repo["stars"]} | 🍴 {repo["forks"]}</p>
-
-<canvas id="views{chart_id}" height="120"></canvas>
-<canvas id="clones{chart_id}" height="120"></canvas>
-
-</div>
+<div id="repos"></div>
 
 <script>
 
-new Chart(document.getElementById("views{chart_id}"), {{
-type:"line",
-data:{{
-labels:{views_dates},
-datasets:[{{
-label:"Views",
-data:{views_counts},
-borderColor:"#58a6ff",
+const repos = {json.dumps(repos)};
+
+function toggle(id) {{
+let el = document.getElementById(id);
+el.style.display = el.style.display === "block" ? "none" : "block";
+}}
+
+function createDashboard() {{
+
+let container = document.getElementById("repos");
+
+repos.forEach((repo, index) => {{
+
+let repoId = "repo"+index;
+let chartId = "chart"+index;
+
+let repoHTML = `
+<div class="repo">
+
+<div class="repo-header" onclick="toggle('${{repoId}}')">
+${{repo.name}}
+</div>
+
+<div class="repo-content" id="${{repoId}}">
+
+<p>${{repo.description || "No description"}}</p>
+
+<p>⭐ ${{repo.stars}} | 🍴 ${{repo.forks}}</p>
+
+<a href="${{repo.url}}" target="_blank">${{repo.url}}</a>
+
+<canvas id="${{chartId}}" height="120"></canvas>
+
+</div>
+
+</div>
+`;
+
+container.innerHTML += repoHTML;
+
+setTimeout(() => {{
+
+let labels = repo.views.map(v => v.timestamp.substring(0,10));
+let views = repo.views.map(v => v.count);
+let clones = repo.clones.map(v => v.count);
+
+new Chart(document.getElementById(chartId), {{
+
+type: "line",
+
+data: {{
+labels: labels,
+datasets: [
+
+{{
+label: "Views",
+data: views,
+borderColor: "#58a6ff",
 tension:0.3
-}}]
 }},
-options:{{
+
+{{
+label: "Clones",
+data: clones,
+borderColor: "#3fb950",
+tension:0.3
+}}
+
+]
+}},
+
+options: {{
+interaction:{{
+mode:"index",
+intersect:false
+}},
 plugins:{{
 tooltip:{{enabled:true}}
+}},
+scales:{{
+y:{{beginAtZero:true}}
 }}
 }}
+
 }})
 
-new Chart(document.getElementById("clones{chart_id}"), {{
-type:"line",
-data:{{
-labels:{clones_dates},
-datasets:[{{
-label:"Clones",
-data:{clones_counts},
-borderColor:"#3fb950",
-tension:0.3
-}}]
-}},
-options:{{
-plugins:{{
-tooltip:{{enabled:true}}
-}}
-}}
+}},100)
+
 }})
+
+}}
+
+createDashboard();
 
 </script>
 
+</body>
+</html>
 """
-
-html += "</body></html>"
 
 open("dashboard.html","w",encoding="utf8").write(html)
 
-print("Created dashboard.html")
+print("dashboard.html created")
