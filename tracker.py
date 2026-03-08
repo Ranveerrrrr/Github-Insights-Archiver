@@ -32,6 +32,16 @@ for repo in repos:
         headers=HEADERS
     ).json()
 
+    referrers = requests.get(
+        f"https://api.github.com/repos/{owner}/{name}/traffic/popular/referrers",
+        headers=HEADERS
+    ).json()
+
+    paths = requests.get(
+         f"https://api.github.com/repos/{owner}/{name}/traffic/popular/paths",
+         headers=HEADERS
+    ).json()
+
     repo_data = {
         "name": name,
         "description": repo["description"],
@@ -39,7 +49,9 @@ for repo in repos:
         "forks": repo["forks_count"],
         "url": repo["html_url"],
         "views": views.get("views", []),
-        "clones": clones.get("clones", [])
+        "clones": clones.get("clones", []),
+        "referrers": referrers,
+        "paths": paths
     }
 
     all_data.append(repo_data)

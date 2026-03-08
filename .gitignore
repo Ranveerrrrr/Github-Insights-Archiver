@@ -1,7 +1,7 @@
 # secrets
 config.json
 traffic.json
-*.html
+
 
 # database
 db.sqlite
