@@ -1,0 +1,24 @@
+# secrets
+config.json
+
+# database
+db.sqlite
+*.db
+*.png
+
+# generated data
+data.json
+
+# python
+__pycache__/
+*.pyc
+
+# environment
+.env
+
+# logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
