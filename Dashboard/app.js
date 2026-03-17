@@ -1,11 +1,13 @@
 let repos = [];
 let chart = null;
+let originalRepos = [];
 
 fetch("../traffic.json")
 .then(res => res.json())
 .then(data => {
 
 repos = data;
+originalRepos = JSON.parse(JSON.stringify(data)); 
 
 const repoList = document.getElementById("repoList");
 
@@ -47,7 +49,15 @@ repoInfo.innerHTML=`
 <a class="repo-link" href="${repo.url}" target="_blank">${repo.url}</a>
 `;
 
-const labels=repo.views.map(v=>v.timestamp.substring(0,10));
+const labels = repo.views.map(v => {
+    const d = new Date(v.timestamp);
+
+    const day = d.getDate();
+    const month = d.getMonth() + 1; 
+    const year = d.getFullYear().toString().slice(-2); 
+
+    return `${day}/${month}/${year}`;
+});
 const views=repo.views.map(v=>v.count);
 const clones=repo.clones.map(v=>v.count);
 
@@ -129,4 +139,44 @@ contentTable.innerHTML+=`
 `;
 });
 
+}
+
+function applyFilter(){
+
+const start = document.getElementById("startDate").value;
+const end = document.getElementById("endDate").value;
+
+if(!start || !end){
+alert("Select both dates");
+return;
+}
+
+repos = originalRepos.map(repo => {
+
+const filterData = (arr) => {
+return arr.filter(item => {
+const date = item.timestamp.substring(0,10);
+return date >= start && date <= end;
+});
+};
+
+return {
+...repo,
+views: filterData(repo.views),
+clones: filterData(repo.clones)
+};
+
+});
+
+loadRepo(0);
+}
+
+function resetFilter(){
+
+repos = JSON.parse(JSON.stringify(originalRepos));
+
+document.getElementById("startDate").value = "";
+document.getElementById("endDate").value = "";
+
+loadRepo(0);
 }

@@ -6,7 +6,6 @@ traffic.json
 # database
 db.sqlite
 *.db
-*.png
 
 # generated data
 data.json
