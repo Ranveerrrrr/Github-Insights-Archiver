@@ -5,6 +5,8 @@
 ![Status](https://img.shields.io/badge/status-active-success?style=for-the-badge)
 ![Maintenance](https://img.shields.io/badge/maintained-yes-brightgreen?style=for-the-badge)
 ![GitHub license](https://img.shields.io/github/license/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
+![Languages](https://img.shields.io/github/languages/top/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
+![Language Count](https://img.shields.io/github/languages/count/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
 
 A lightweight tool for archiving GitHub repository traffic data (beyond the 14-day limit). It allows users to build long-term analytics by periodically collecting data and visualizing it locally.
 
