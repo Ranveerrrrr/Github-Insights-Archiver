@@ -7,51 +7,54 @@
 ![GitHub license](https://img.shields.io/github/license/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
 ![Languages](https://img.shields.io/github/languages/top/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
 ![Language Count](https://img.shields.io/github/languages/count/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
+![License](https://img.shields.io/github/license/Ranveerrrrr/Github-Insights-Archiver?style=for-the-badge)
 
-A lightweight tool for archiving GitHub repository traffic data (beyond the 14-day limit). It allows users to build long-term analytics by periodically collecting data and visualizing it locally.
+## Overview
 
-## Purpose
+A lightweight tool to archive GitHub repository traffic data beyond GitHub's 14-day limit. It continuously collects and stores data to build long-term analytics and provides a local dashboard with time-based filtering.
 
-GitHub only provides traffic data for the last 14 days. This tool extends that capability by:
+## Features
 
-- Storing views and clones over time
-- Preserving referrers and popular content
-- Enabling long-term trend analysis
+- ✓ Stores GitHub traffic beyond 14 days
+- ✓ Tracks views and clones over time
+- ✓ Preserves referrers and popular paths
+- ✓ Time-range filtering ("time machine" dashboard)
+- ✓ No external database required
 
 ## How It Works
 
-1. The script connects to the GitHub API using a personal access token.
-2. It fetches repository traffic data, including:
+1. A Python script fetches GitHub traffic data using the GitHub API
+2. Data includes:
    - Views
    - Clones
    - Referrers
-   - Popular paths
-3. New data is merged with existing data to avoid duplicates.
-4. The result is stored in `traffic.json`.
-5. The dashboard reads this data and provides visualization.
+   - Popular Paths
+3. Data is merged with existing history (no duplicates)
+4. Snapshots are stored over time to build a history
+5. The dashboard visualizes and filters this data
 
 ## Folder Structure
 
-```
-github-traffic-archiver/
-|──tracker.py     <- Main Script
-|──config.json    <- Github Token
-|──traffic.json   <- Traffic Data
-|──dashboard/
-    │──index.html    <- Main Dashboard
-    │──app.js        <- Data Logic
-    │──style.css     <- UI Style
+```text
+github-insights-archiver/
+|──tracker.py      <- Main Script
+|──config.json     <- Github Token
+|──Dashboard/
+   |──index.html      <- Main Dashboard
+   |──style.css       <- UI Style
+   |──app.js          <- Data Logic
+   |──data (traffic.json, snapshots.json,  referrers_history.json and paths_history.json)
 ```
 
 ## Setup
 
-1. Install required package:
+1. Install dependencies:
 
 ```bash
 pip install requests
 ```
 
-2. Create a `config.json` file:
+2. Create `config.json`:
 
 ```json
 {
@@ -61,35 +64,41 @@ pip install requests
 
 ## Usage
 
-Run the tracker script:
+Run the tracker:
 
 ```bash
 python tracker.py
 ```
 
 The script will:
-- Fetch latest traffic data
-- Merge it with existing data
-- Update `traffic.json`
+- Fetch latest data
+- Merge with history
+- Update data inside Dashboard/
 
-To view the dashboard:
-- Open the `dashboard/index.html` file in any browser
-- View repository statistics
-- Apply date filters using the built-in controls
+To view dashboard:
+- Serve Dashboard/ via Nginx or open index.html
+- Use date filters to explore history
 
-## Automation (Optional)
+## Automation (Cron)
 
-To ensure data is not lost, run the script periodically using a cron job:
+Run daily:
 
 ```bash
 0 0 * * * python3 /path/to/tracker.py
 ```
 
-Running this daily is recommended to maintain a complete history.
+Regular execution ensures no data loss
 
 ## Notes
 
-- GitHub traffic data is limited to 14 days without archiving
-- Regular execution is required to preserve data
-- No external server is required, the dashboard runs locally
+- GitHub limits traffic to 14 days
+- This tool builds a persistent history
+- Referrers and paths are snapshot based (preserved over time)
+- Dashboard supports time-range analysis
+
+## Security
+
+- NEVER push `config.json`
+- Use `.gitignore` to ignore sensitive and generated files
+
 
