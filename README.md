@@ -43,7 +43,7 @@ github-insights-archiver/
    |──index.html      <- Main Dashboard
    |──style.css       <- UI Style
    |──app.js          <- Data Logic
-   |──data (traffic.json, snapshots.json,  referrers_history.json and paths_history.json)
+   |──data (traffic.json, snapshots.json, referrers_history.json and paths_history.json)
 ```
 
 ## Setup
