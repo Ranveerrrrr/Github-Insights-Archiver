@@ -86,6 +86,7 @@ text-decoration:underline;
 .stats{
 display:flex;
 gap:20px;
+flex-wrap:wrap;
 margin-bottom:30px;
 }
 
@@ -94,7 +95,7 @@ background:#161b22;
 border:1px solid #30363d;
 border-radius:6px;
 padding:16px;
-width:160px;
+width:180px;
 }
 
 .stat-title{
@@ -108,14 +109,27 @@ font-size:22px;
 font-weight:600;
 }
 
-canvas{
+/* CHART CARDS */
+.chart-wrapper{
+width:100%;
 max-width:900px;
-margin-bottom:40px;
+height:300px;
+background:#161b22;
+border:1px solid #30363d;
+border-radius:10px;
+padding:15px;
+margin-bottom:25px;
+}
+
+.chart-wrapper canvas{
+width:100% !important;
+height:100% !important;
 }
 
 table{
 border-collapse:collapse;
-width:900px;
+width:100%;
+max-width:900px;
 margin-top:10px;
 background:#161b22;
 border:1px solid #30363d;
@@ -161,4 +175,16 @@ cursor:pointer;
 
 .filter-bar button:hover{
 background:#21262d;
+}
+.main{
+flex:1;
+padding:40px;
+overflow-y:auto;
+min-height:100vh;
+}
+.chart-wrapper{
+width:100%;
+max-width:900px;
+height:280px;
+margin-bottom:40px; /* more breathing space */
 }

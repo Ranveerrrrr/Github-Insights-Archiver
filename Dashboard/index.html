@@ -2,12 +2,11 @@
 <html>
 
 <head>
-<title>GitHub Repo Analytics</title>
-
-<link rel="stylesheet" href="style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <title>GitHub Repo Analytics</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
 </head>
 
 <body>
@@ -15,7 +14,6 @@
 <div class="sidebar">
 
 <div class="logo">
-
 <svg height="20" viewBox="0 0 16 16" fill="white">
 <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38
 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94
@@ -39,9 +37,7 @@ c.68 0 1.36.09 2 .26
 A8 8 0 0016 8
 c0-4.42-3.58-8-8-8z"/>
 </svg>
-
 Repositories
-
 </div>
 
 <div id="repoList" class="repo-list"></div>
@@ -63,6 +59,7 @@ Repositories
 
 </div>
 
+<!-- STATS -->
 <div class="stats">
 
 <div class="stat-box">
@@ -71,33 +68,36 @@ Repositories
 </div>
 
 <div class="stat-box">
+<div class="stat-title">Unique Views</div>
+<div id="uniqueViews" class="stat-value">0</div>
+</div>
+
+<div class="stat-box">
 <div class="stat-title">Total Clones</div>
 <div id="totalClones" class="stat-value">0</div>
 </div>
 
+<div class="stat-box">
+<div class="stat-title">Unique Clones</div>
+<div id="uniqueClones" class="stat-value">0</div>
 </div>
 
-<canvas id="chart" height="120"></canvas>
+</div>
+
+<!-- STACKED CHARTS -->
+<div class="chart-wrapper">
+    <canvas id="viewsChart"></canvas>
+</div>
+
+<div class="chart-wrapper">
+    <canvas id="clonesChart"></canvas>
+</div>
 
 <h3>Referring Sites</h3>
-
-<table id="refTable">
-<tr>
-<th>Site</th>
-<th>Views</th>
-<th>Unique Visitors</th>
-</tr>
-</table>
+<table id="refTable"></table>
 
 <h3>Popular Content</h3>
-
-<table id="contentTable">
-<tr>
-<th>Content</th>
-<th>Views</th>
-<th>Unique Visitors</th>
-</tr>
-</table>
+<table id="contentTable"></table>
 
 </div>
 

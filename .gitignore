@@ -1,7 +1,10 @@
 # secrets
 config.json
 traffic.json
-
+snapshots.json
+referrers_history.json
+paths_history.json
+stars.json
 
 # database
 db.sqlite
@@ -13,6 +16,7 @@ data.json
 # python
 __pycache__/
 *.pyc
+.venv/
 
 # environment
 .env
@@ -23,3 +27,4 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
